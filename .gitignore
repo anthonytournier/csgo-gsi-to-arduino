@@ -100,3 +100,5 @@ ENV/
 
 # vscode
 .vscode/ 
+
+config.json

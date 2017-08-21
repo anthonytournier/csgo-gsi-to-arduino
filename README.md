@@ -18,7 +18,10 @@ PIP
 *TODO*
 
 ```
+git clone https://github.com/synyster0fa7x/csgo-gsi-to-arduino.git
+cd csgo-gsi-to-arduino
 pip install -r requirements.txt
+cp config.json.dist config.json
 ```
 
 Launch watcher
