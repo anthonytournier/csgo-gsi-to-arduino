@@ -1,21 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-CSGO:GSI to Arduino
-"""
+import json
+from logzero import logger
 
 __author__ = "Anthony Tournier"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from logzero import logger
+__conf__ = {}
+with open('config.json') as json_data_file:
+    __conf__ = json.load(json_data_file)
 
 
 def main():
-    """ Main entry point of the app """
-    logger.info("hello world")
-
+    """ Maint input of app """
+    logger.info("TODO")
 
 if __name__ == "__main__":
-    """ This is executed when run from the command line """
     main()
