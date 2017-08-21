@@ -3,6 +3,7 @@
 from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 from logzero import logger
 import json
+import serial
 
 
 __author__ = "Anthony Tournier"
@@ -13,6 +14,8 @@ __config__ = {}
 with open('config.json') as json_data_file:
     __config__ = json.load(json_data_file)
 
+__ser__ = serial.Serial(__config__['serial']['port'], __config__['serial']['baudrate'], __config__['serial']['timeout'])
+
 class RequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
@@ -21,6 +24,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         length = int(content_length[0]) if content_length else 0
         data = self.rfile.read(length)
         logger.info('Payload received' + data)
+        __ser__.write(data) 
     do_PUT = do_POST
 
 def main():
