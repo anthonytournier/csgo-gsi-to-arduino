@@ -32,7 +32,7 @@ End with an example of getting some data out of the system or using it for a lit
 ## Built With
 
 * [Python](https://www.python.org/)
-* [CSGO:GSI](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) - Dependency Management
+* [CSGO:GSI](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) - CSGO: Game State Integration documentation
 
 ## Authors
 
