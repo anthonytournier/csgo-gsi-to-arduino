@@ -30,7 +30,7 @@ Fill `config.json` with your parameters then launch the server with :
 python main.py
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+The server is now listenning for POST request then send the datas to your Arduino throught serial COM.
 
 ## Built With
 
