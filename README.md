@@ -24,7 +24,7 @@ pip install -r requirements.txt
 cp config.json.dist config.json
 ```
 
-Launch watcher
+Fill `config.json` with your parameters then launch the server with :
 
 ```
 python main.py
