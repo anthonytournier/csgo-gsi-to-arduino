@@ -1,13 +1,11 @@
 {
     "csgogsi":{
-        "host":"127.0.0.1",
+        "host":"",
         "port":"3000",
         "secret":"MY_SECRET_PHRASE"
     },
     "serial":{
         "port": "/dev/ttyACM0",
         "baudrate": 9600,
-        "timeout": 1,
-        "writeTimeout": 1
     }
 }
