@@ -15,13 +15,11 @@ PIP
 
 ### Installing
 
-*TODO*
-
 ```
-git clone https://github.com/synyster0fa7x/csgo-gsi-to-arduino.git
-cd csgo-gsi-to-arduino
-pip install -r requirements.txt
-cp config.json.dist config.json
+$ git clone https://github.com/synyster0fa7x/csgo-gsi-to-arduino.git
+$ cd csgo-gsi-to-arduino
+$ python -m pip install -r requirements.txt
+$ cp config.json.dist config.json
 ```
 
 Fill `config.json` with your parameters then launch the server with :
