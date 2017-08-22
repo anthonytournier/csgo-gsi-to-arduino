@@ -2,10 +2,6 @@
 
 Send CSGO:GSI datas to Arduino throught serial communication
 
-## Getting Started
-
-*TODO*
-
 ### Prerequisites
 
 ```
