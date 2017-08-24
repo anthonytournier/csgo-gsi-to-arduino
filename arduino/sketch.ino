@@ -14,8 +14,8 @@ void setup() {
 }
 
 void loop() {
-	StaticJsonBuffer<200> jsonBuffer;
-
+	/* Get that for later :) */
+/* 	StaticJsonBuffer<200> jsonBuffer;
 	char json[] = "{\"round\": {\"phase\": \"live\",\"bomb\": \"planted\"}}";
 	JsonObject& root = jsonBuffer.parseObject(json);
 	
@@ -26,10 +26,8 @@ void loop() {
 
 	const char* bombStatus = root["round"]["bomb"];
 	if(bombStatus == "planted") {
-
 	}
-	
-	Serial.println(bombStatus);
+	Serial.println(bombStatus); */
 }
 
 void initSerial() {
