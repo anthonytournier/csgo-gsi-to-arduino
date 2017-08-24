@@ -10,6 +10,8 @@ int terroColor[3] = {245, 179, 83};
 int counterColor[3] = {20, 36, 214};
 int deadColor[3] = {171, 3, 142};
 int bombColor[3] = {255, 0, 0};
+int explodedColor[3] = {255, 255, 255};
+int offColor[3] = {0, 0, 0};
 int currentColor[3] = {0, 0, 0};
 
 void setup() {
@@ -17,8 +19,8 @@ void setup() {
 	pinMode(REDPIN, OUTPUT);
 	pinMode(GREENPIN, OUTPUT);
 	pinMode(BLUEPIN, OUTPUT);
-
 	setColor(deadColor);
+	bombExploded();
 }
 
 void loop() {
@@ -37,8 +39,8 @@ void loop() {
 	}
 	Serial.println(bombStatus); */
 	
-	fadeTo(bombColor);
-	fadeTo(terroColor);
+	/* fadeTo(bombColor);
+	fadeTo(terroColor); */
 }
 
 void initSerial() {
@@ -46,13 +48,6 @@ void initSerial() {
 	while (!Serial) {
 	  ; 
 	}
-}
-
-void setColor(int color[]) {
-  analogWrite(REDPIN, color[0]);
-  analogWrite(GREENPIN, color[1]);
-  analogWrite(BLUEPIN, color[2]);  
-  setCurrentColor(color);
 }
 
 void fadeTo(int color[]) {
@@ -80,6 +75,13 @@ void fadeTo(int color[]) {
 	}
 }
 
+void setColor(int color[]) {
+	analogWrite(REDPIN, color[0]);
+	analogWrite(GREENPIN, color[1]);
+	analogWrite(BLUEPIN, color[2]);  
+	setCurrentColor(color);
+  }
+
 void setCurrentColor(int color[]) {
 	currentColor[0] = color[0];
 	currentColor[1] = color[1];
@@ -91,4 +93,20 @@ bool isArrayEquals(int first[], int second[]) {
 		return true;
 	}
 	return false;
+}
+
+void bombBeep() {
+	setColor(offColor);
+	delay(900);
+	setColor(bombColor);
+	delay(100);
+}
+
+void bombExploded() {
+	while(millis() < 3000) {
+		setColor(offColor);
+		delay(50);
+		setColor(explodedColor);
+		delay(50);
+	}
 }
