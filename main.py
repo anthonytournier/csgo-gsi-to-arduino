@@ -22,7 +22,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         length = int(content_length[0]) if content_length else 0
         data = self.rfile.read(length)
         logger.info('Payload received' + data)
-        __ser__.write(data)
+        __ser__.write(data) 
     do_PUT = do_POST
 
 def main():
