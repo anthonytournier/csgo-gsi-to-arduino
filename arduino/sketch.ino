@@ -6,6 +6,11 @@
 #define BUFFER_SIZE 500
 #define BAUD_RATE 9600
 
+int terroColor[] = {245, 179, 83};
+int counterColor[] = {20, 36, 214};
+int deadColor[] = {171, 3, 142};
+int bombColor[] = {20, 36, 214};
+
 void setup() {
 	initSerial();
 	pinMode(REDPIN, OUTPUT);
@@ -28,7 +33,7 @@ void loop() {
 	if(bombStatus == "planted") {
 	}
 	Serial.println(bombStatus); */
-	bombColor();
+	setColor(deadColor);
 }
 
 void initSerial() {
@@ -39,28 +44,8 @@ void initSerial() {
 	Serial.println("Serial ready");
 }
 
-void setColor(int red, int green, int blue) {
-  analogWrite(REDPIN, red);
-  analogWrite(GREENPIN, green);
-  analogWrite(BLUEPIN, blue);  
-}
-
-void counterColor() {
-	setColor(20,36,214);
-}
-
-void terroristColor() {
-	setColor(244,144,4);
-}
-
-void deadColor() {
-	setColor(171,3,142);
-}
-
-void bombColor() {
-	setColor(254,0,0);
-}
-
-void fadeTo(int red, int green, int blue) {
-
+void setColor(int color[]) {
+  analogWrite(REDPIN, color[0]);
+  analogWrite(GREENPIN, color[1]);
+  analogWrite(BLUEPIN, color[2]);  
 }
