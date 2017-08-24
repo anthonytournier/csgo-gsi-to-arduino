@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
 	/* Get that for later :) */
-/* 	StaticJsonBuffer<200> jsonBuffer;
+	/* 	StaticJsonBuffer<200> jsonBuffer;
 	char json[] = "{\"round\": {\"phase\": \"live\",\"bomb\": \"planted\"}}";
 	JsonObject& root = jsonBuffer.parseObject(json);
 	
@@ -23,11 +23,12 @@ void loop() {
 		Serial.println("parseObject() failed");
 		return;
 	}
-
+	
 	const char* bombStatus = root["round"]["bomb"];
 	if(bombStatus == "planted") {
 	}
 	Serial.println(bombStatus); */
+	bombColor();
 }
 
 void initSerial() {
@@ -36,4 +37,30 @@ void initSerial() {
 	  ; 
 	}
 	Serial.println("Serial ready");
+}
+
+void setColor(int red, int green, int blue) {
+  analogWrite(REDPIN, red);
+  analogWrite(GREENPIN, green);
+  analogWrite(BLUEPIN, blue);  
+}
+
+void counterColor() {
+	setColor(20,36,214);
+}
+
+void terroristColor() {
+	setColor(244,144,4);
+}
+
+void deadColor() {
+	setColor(171,3,142);
+}
+
+void bombColor() {
+	setColor(254,0,0);
+}
+
+void fadeTo(int red, int green, int blue) {
+
 }
