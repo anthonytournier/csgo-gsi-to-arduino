@@ -10,6 +10,7 @@ int terroColor[] = {245, 179, 83};
 int counterColor[] = {20, 36, 214};
 int deadColor[] = {171, 3, 142};
 int bombColor[] = {20, 36, 214};
+int currentColor[] = {0, 0, 0};
 
 void setup() {
 	initSerial();
@@ -48,4 +49,9 @@ void setColor(int color[]) {
   analogWrite(REDPIN, color[0]);
   analogWrite(GREENPIN, color[1]);
   analogWrite(BLUEPIN, color[2]);  
+  currentColor[] = {color[0], color[1], color[2]};
+}
+
+void fadeTo(int color[]) {
+
 }
