@@ -9,6 +9,13 @@ Python 2
 PIP
 ```
 
+### Materials
+
+* Arduino (Uno, Mega, Mini...)
+* 3 resistors 100Ω
+* 3 N-Channel MOSFETs (*TODO: Add refs.*)
+* 12V LED Strip RGB 4 Pins
+
 ### Installing
 
 ```
@@ -25,6 +32,11 @@ python main.py
 ```
 
 The server is now listenning for POST request then send the datas to your Arduino throught serial COM.
+
+### Wiring
+
+Follow this sketch :
+![alt text](wiring.png)
 
 ## Built With
 
