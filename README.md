@@ -16,11 +16,13 @@ PIP
 * 3 N-Channel MOSFETs (*TODO: Add refs.*)
 * 12V LED Strip RGB 4 Pins
 
-### Installing
+### Installation
+
+#### Python Server
 
 ```
 $ git clone https://github.com/synyster0fa7x/csgo-gsi-to-arduino.git
-$ cd csgo-gsi-to-arduino
+$ cd csgo-gsi-to-arduino/python
 $ python -m pip install -r requirements.txt
 $ cp config.json.dist config.json
 ```
@@ -35,8 +37,7 @@ The server is now listenning for POST request then send the datas to your Arduin
 
 ### Wiring
 
-Follow this sketch :
-![alt text](wiring.png)
+![csgo gsi led strip arduino](arduino/wiring.png)
 
 ## Built With
 
