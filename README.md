@@ -43,9 +43,9 @@ Follow this sketch :
 * [Python](https://www.python.org/)
 * [CSGO:GSI](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) - CSGO: Game State Integration documentation
 
-## Authors
+## Thanks to
 
-**Anthony Tournier** - *Initial work* - [synyster0fa7x](https://github.com/synyster0fa7x)
+**megamorphf** - *I take his CSGO Bomb timer reverse engineering* - [GitHub](https://github.com/megamorphf/CSGOBombTimer)
 
 ## License
 
