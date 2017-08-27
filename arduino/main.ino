@@ -1,4 +1,5 @@
 #include <ArduinoJson.h>
+#include <CmdMessenger.h>
  
 #define REDPIN 5
 #define GREENPIN 6
@@ -6,48 +7,39 @@
 #define BUFFER_SIZE 500
 #define BAUD_RATE 9600
 
-int terroColor[3] = {245, 179, 83};
+int terroColor[3] = {255, 100, 0};
 int counterColor[3] = {20, 36, 214};
 int deadColor[3] = {171, 3, 142};
 int bombColor[3] = {255, 0, 0};
 int explodedColor[3] = {255, 255, 255};
 int offColor[3] = {0, 0, 0};
+int menuColor[3] = {0, 255, 0};
 int currentColor[3] = {0, 0, 0};
+CmdMessenger cmdMessenger = CmdMessenger(Serial);
 
-void setup() {
-	initSerial();
-	pinMode(REDPIN, OUTPUT);
-	pinMode(GREENPIN, OUTPUT);
-	pinMode(BLUEPIN, OUTPUT);
-	setColor(deadColor);
-	bombExploded();
-}
-
-void loop() {
-	/* Get that for later :) */
-	/* 	StaticJsonBuffer<200> jsonBuffer;
-	char json[] = "{\"round\": {\"phase\": \"live\",\"bomb\": \"planted\"}}";
-	JsonObject& root = jsonBuffer.parseObject(json);
-	
-	if (!root.success()) {
-		Serial.println("parseObject() failed");
-		return;
-	}
-	
-	const char* bombStatus = root["round"]["bomb"];
-	if(bombStatus == "planted") {
-	}
-	Serial.println(bombStatus); */
-	
-	/* fadeTo(bombColor);
-	fadeTo(terroColor); */
+void attachCommandCallbacks() {
+	cmdMessenger.printLfCr();
+	cmdMessenger.attach(1, onMenu);
+	cmdMessenger.attach(2, teamT);
+	cmdMessenger.attach(3, teamCT);
+	cmdMessenger.attach(unknownCmd);
 }
 
 void initSerial() {
-	Serial.begin(BAUD_RATE);
-	while (!Serial) {
-	  ; 
-	}
+	Serial.begin(9600);
+	attachCommandCallbacks();
+}
+
+void setup() {
+	pinMode(REDPIN, OUTPUT);
+	pinMode(BLUEPIN, OUTPUT);
+	pinMode(GREENPIN, OUTPUT);
+	setColor(offColor);
+	initSerial();
+}
+
+void loop() {
+	cmdMessenger.feedinSerialData();
 }
 
 void fadeTo(int color[]) {
@@ -80,7 +72,7 @@ void setColor(int color[]) {
 	analogWrite(GREENPIN, color[1]);
 	analogWrite(BLUEPIN, color[2]);  
 	setCurrentColor(color);
-  }
+}
 
 void setCurrentColor(int color[]) {
 	currentColor[0] = color[0];
@@ -109,4 +101,24 @@ void bombExploded() {
 		setColor(explodedColor);
 		delay(50);
 	}
+}
+
+void unknownCmd() {
+	onMenu();
+	cmdMessenger.feedinSerialData();
+}
+
+void onMenu() {
+	setColor(menuColor);
+	cmdMessenger.feedinSerialData();
+}
+
+void teamCT() {
+	setColor(counterColor);
+	cmdMessenger.feedinSerialData();
+}
+
+void teamT() {
+	setColor(terroColor);
+	cmdMessenger.feedinSerialData();
 }
