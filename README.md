@@ -18,6 +18,10 @@ PIP
 
 ### Installation
 
+#### Arduino
+
+Upload the `arduino/main.ino` to your Arduino.
+
 #### Python Server
 
 ```
@@ -34,6 +38,15 @@ python main.py
 ```
 
 The server is now listenning for POST request then send the datas to your Arduino throught serial COM.
+
+
+#### CS:GO Server
+
+Copy the `.cfg` file into your CS:GO config's directory. This is mine for exemple : 
+
+`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\` 
+
+then restart CS:GO.
 
 ### Wiring
 
