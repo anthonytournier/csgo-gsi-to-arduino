@@ -1,6 +1,6 @@
 {
     "csgogsi":{
-        "host":"",
+        "ip":"",
         "port":"3000",
         "secret":"MY_SECRET_PHRASE"
     },
