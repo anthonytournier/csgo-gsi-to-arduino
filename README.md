@@ -13,7 +13,7 @@ PIP
 
 * Arduino (Uno, Mega, Mini...)
 * 3 resistors 100Ω
-* 3 N-Channel MOSFETs (*TODO: Add refs.*)
+* 3 N-Channel MOSFETs
 * 12V LED Strip RGB 4 Pins
 
 ### Installation
@@ -43,10 +43,6 @@ The server is now listenning for POST request then send the datas to your Arduin
 
 * [Python](https://www.python.org/)
 * [CSGO:GSI](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration) - CSGO: Game State Integration documentation
-
-## Thanks to
-
-**megamorphf** - *I take his CSGO Bomb timer reverse engineering* - [GitHub](https://github.com/megamorphf/CSGOBombTimer)
 
 ## License
 

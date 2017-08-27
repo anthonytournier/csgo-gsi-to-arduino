@@ -12,7 +12,7 @@ int counterColor[3] = {20, 36, 214};
 int deadColor[3] = {171, 3, 142};
 int bombColor[3] = {255, 0, 0};
 int explodedColor[3] = {255, 255, 255};
-int offColor[3] = {0, 0, 0};
+int offColor[3] = {255, 255, 255};
 int menuColor[3] = {0, 255, 0};
 int currentColor[3] = {0, 0, 0};
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
@@ -26,7 +26,7 @@ void attachCommandCallbacks() {
 }
 
 void initSerial() {
-	Serial.begin(9600);
+	Serial.begin(BAUD_RATE);
 	attachCommandCallbacks();
 }
 
@@ -87,21 +87,6 @@ bool isArrayEquals(int first[], int second[]) {
 	return false;
 }
 
-void bombBeep() {
-	setColor(offColor);
-	delay(900);
-	setColor(bombColor);
-	delay(100);
-}
-
-void bombExploded() {
-	while(millis() < 3000) {
-		setColor(offColor);
-		delay(50);
-		setColor(explodedColor);
-		delay(50);
-	}
-}
 
 void unknownCmd() {
 	onMenu();
