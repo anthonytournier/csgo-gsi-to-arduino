@@ -6,6 +6,6 @@
     },
     "serial":{
         "port": "/dev/ttyACM0",
-        "baudrate": 9600,
+        "baudrate": 9600
     }
 }
