@@ -24,7 +24,7 @@ WARNING:    30
 ERROR:      40
 CRITICAL:   50
 """
-logzero.loglevel(10)
+logzero.loglevel(20)
 
 # Read configuration data from json file
 logger.info("Reading config...")
@@ -72,6 +72,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         serial_cmd = (b"%d;") % (id)
         __ser__.write(serial_cmd)
 
+    # Send serial command with an integer argument
+    def SendCmdWithIntArg(self, id, arg):
+        serial_cmd = (b"%d,%d;" % (id, arg))
+        __ser__.write(serial_cmd)
+
     # Player is in a menu
     def menu(self, serial_id = 1):
         logger.info('On menu')
@@ -87,6 +92,36 @@ class RequestHandler(BaseHTTPRequestHandler):
     # Playing/Spectating counter-terrorism
     def teamCT(self, serial_id = 3):
         logger.info('CT team')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
+    # Player is flashed
+    def flashed(self, serial_id = 4, flashed = 0):
+        logger.info('Flashed (0-255): %d' %(flashed))
+        self.SendCmdWithIntArg(serial_id, flashed)
+        self._currentStatus = serial_id
+    
+    # Bomb has been planted
+    def bomb(self, serial_id = 5):
+        logger.info('Bomb has been planted')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
+    # Bomb exploded
+    def bombExploded(self, serial_id = 6):
+        logger.info('Bomb exploded')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+    
+    # Bomb was defused
+    def bombDefused(self, serial_id = 7):
+        logger.info('Bomb defused')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
+    # Not known state, set default color
+    def defaultColor(self, serial_id = 8):
+        logger.info('Default state')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
 
@@ -115,18 +150,39 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.menu()
         elif GetValue(payload, 'player', 'activity') == 'playing':
             # Player is playing
-            # Check in which team the player is playing or spectating
-            
-            team = GetValue(payload, 'player', 'team')
-            if (team == 'T'):
-                # Player plays terrorist
-                self.teamT()
-            elif (team == 'CT'):
-                # Player plays counter-terrorism
-                self.teamCT()
+            # Check flashed state
+            flashed = GetValue(payload, 'player', 'state', 'flashed')
+            if (not flashed or flashed == 0):
+                # Player is not flashed
+                # Check bomb state
+                bomb = GetValue(payload, 'round', 'bomb')
+                if (bomb == 'planted'):
+                    # Bomb has been planted
+                    self.bomb()
+                elif (bomb == 'exploded'):
+                    # Bomb exploded
+                    self.bombExploded()
+                elif (bomb == 'defused'):
+                    # Bomb was defused
+                    self.bombDefused()
+                else:
+                    # Bomb has not been planted yet
+                    # Set team colors
+                    team = GetValue(payload, 'player', 'team')
+                    if (team == 'T'):
+                        # Player plays terrorist
+                        self.teamT()
+                    elif (team == 'CT'):
+                        # Player plays counter-terrorism
+                        self.teamCT()
+                    else:
+                        # Not in a team currently so set menu color
+                        self.menu()
             else:
-                # Not in a team currently so use menu colors
-                self.menu()
+                # Player is flashed so override all colors with whiteout
+                self.flashed(flashed=flashed)
+            
+            
                 
         self.sendResponse()
 
