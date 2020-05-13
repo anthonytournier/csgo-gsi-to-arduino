@@ -86,6 +86,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             __ser__.write(data)
         except Exception:
             logger.error("Could not send data to Arduino! Check your connection.")
+            exit(1)
 
     # Player is in a menu
     def menu(self, serial_id = 1):
