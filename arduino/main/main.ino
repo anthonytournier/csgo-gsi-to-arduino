@@ -7,10 +7,19 @@
 #define BUFFER_SIZE 500
 #define BAUD_RATE 9600
 
+#define BOMB_START_BLINK_INTV 500
+#define BOMB_MIN_BLINK_INTV 50
+#define BOMB_BLINK_INTV_DEC 1
+
 bool bombPlanted = false;
 bool bombLight = false;
 
 bool bombIsExploded = false;
+bool bombIsDefused = false;
+
+bool winCondition = false;
+bool terrorWin = false;
+bool winLight = true;
 
 int terroColor[3] = {255, 100, 0};
 int counterColor[3] = {20, 36, 214};
@@ -25,13 +34,21 @@ int flashedColor[3] = {0, 0, 0};
 int randomColor[3] = {0, 0, 0};
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
 
-long bombBlinkInterval = 500;
+long bombBlinkInterval = BOMB_START_BLINK_INTV;
 long lastBlinkTime = 0;
 
 long explodedChangeInterval = 50;
 long lastExplodedChange = 0;
 
+long winChangeInterval = 250;
+long lastWinChange = 0;
+
+long fixedUpdateInterval = 100;
+long lastUpdate = 0;
+
 long currentTime = 0;
+
+float winIntensity = 1.0f;
 
 void attachCommandCallbacks()
 {
@@ -44,6 +61,8 @@ void attachCommandCallbacks()
 	cmdMessenger.attach(6, bombExploded);
 	cmdMessenger.attach(7, bombDefused);
 	cmdMessenger.attach(8, defaultColor);
+	cmdMessenger.attach(9, tWin);
+	cmdMessenger.attach(10, ctWin);
 	cmdMessenger.attach(unknownCmd);
 }
 
@@ -68,7 +87,7 @@ void loop()
 	currentTime = millis();
 
 	// Handle bomb blinking
-	if (bombPlanted && currentTime - lastBlinkTime >= bombBlinkInterval)
+	if (!winCondition && bombPlanted && currentTime - lastBlinkTime >= bombBlinkInterval)
 	{
 		bombLight = !bombLight;
 		if (bombLight)
@@ -79,6 +98,7 @@ void loop()
 		{
 			setColor(bombColorOff);
 		}
+
 		lastBlinkTime = currentTime;
 	}
 
@@ -87,6 +107,44 @@ void loop()
 	{
 		setRandomColor();
 		lastExplodedChange = currentTime;
+	}
+
+	// Handle wins
+	if (winCondition && !bombIsExploded && !bombIsDefused && currentTime - lastWinChange >= winChangeInterval)
+	{
+		if (terrorWin)
+		{
+			// T won
+			setColorWithIntensity(terroColor, winIntensity);
+		}
+		else
+		{
+			// CT won
+			setColorWithIntensity(counterColor, winIntensity);
+		}
+		if (winLight)
+		{
+			winIntensity = 0.6f;
+		}
+		else
+		{
+			winIntensity = 1.0f;
+		}
+		winLight = !winLight;
+		lastWinChange = currentTime;
+	}
+
+	// Handle fixed update
+	if (currentTime - lastUpdate >= fixedUpdateInterval)
+	{
+		// Handle regular state updates
+
+		// Shorten bomb blink interval
+		if (bombPlanted && bombBlinkInterval > BOMB_MIN_BLINK_INTV)
+		{
+			bombBlinkInterval -= BOMB_BLINK_INTV_DEC;
+		}
+		lastUpdate = currentTime;
 	}
 
 	// Read in new commands
@@ -129,7 +187,7 @@ void fadeTo(int color[])
 	}
 }
 
-void setColor(int color[])
+void setColor(int color[3])
 {
 	analogWrite(REDPIN, color[0]);
 	analogWrite(GREENPIN, color[1]);
@@ -137,7 +195,20 @@ void setColor(int color[])
 	setCurrentColor(color);
 }
 
-void setCurrentColor(int color[])
+void setColorWithIntensity(int color[3], float intensity)
+{
+	currentColor[0] = (int)(color[0] * intensity);
+	currentColor[1] = (int)(color[1] * intensity);
+	currentColor[2] = (int)(color[2] * intensity);
+	currentColor[0] = constrain(currentColor[0], 0, 255);
+	currentColor[1] = constrain(currentColor[1], 0, 255);
+	currentColor[2] = constrain(currentColor[2], 0, 255);
+	analogWrite(REDPIN, currentColor[0]);
+	analogWrite(GREENPIN, currentColor[1]);
+	analogWrite(BLUEPIN, currentColor[2]);
+}
+
+void setCurrentColor(int color[3])
 {
 	currentColor[0] = color[0];
 	currentColor[1] = color[1];
@@ -170,34 +241,36 @@ void unknownCmd()
 void onMenu()
 {
 	setColor(menuColor);
-	bombPlanted = false;
-	bombIsExploded = false;
+	resetSpecialState();
 	cmdMessenger.feedinSerialData();
 }
 
 void teamCT()
 {
 	setColor(counterColor);
-	bombPlanted = false;
-	bombIsExploded = false;
+	resetSpecialState();
+	bombBlinkInterval = BOMB_START_BLINK_INTV;
 	cmdMessenger.feedinSerialData();
 }
 
 void teamT()
 {
 	setColor(terroColor);
-	bombPlanted = false;
-	bombIsExploded = false;
+	resetSpecialState();
+	bombBlinkInterval = BOMB_START_BLINK_INTV;
 	cmdMessenger.feedinSerialData();
 }
 
 void flashed()
 {
-	int flashedState = cmdMessenger.readInt16Arg();
-	flashedColor[0] = flashedState;
-	flashedColor[1] = flashedState;
-	flashedColor[2] = flashedState;
-	setColor(flashedColor);
+	if (!bombPlanted && !bombIsDefused && !bombIsExploded && !winCondition)
+	{
+		int flashedState = cmdMessenger.readInt16Arg();
+		flashedColor[0] = flashedState;
+		flashedColor[1] = flashedState;
+		flashedColor[2] = flashedState;
+		setColor(flashedColor);
+	}
 	cmdMessenger.feedinSerialData();
 }
 
@@ -205,12 +278,14 @@ void bomb()
 {
 	bombPlanted = true;
 	bombIsExploded = false;
+	bombIsDefused = false;
 }
 
 void bombExploded()
 {
 	setRandomColor();
 	bombPlanted = false;
+	bombIsExploded = false;
 	bombIsExploded = true;
 	cmdMessenger.feedinSerialData();
 }
@@ -220,13 +295,33 @@ void bombDefused()
 	setColor(defusedColor);
 	bombPlanted = false;
 	bombIsExploded = false;
+	bombIsDefused = true;
 	cmdMessenger.feedinSerialData();
+}
+
+void tWin()
+{
+	winCondition = true;
+	terrorWin = true;
+}
+
+void ctWin()
+{
+	winCondition = true;
+	terrorWin = false;
 }
 
 void defaultColor()
 {
 	setColor(offColor);
+	resetSpecialState();
+	cmdMessenger.feedinSerialData();
+}
+
+void resetSpecialState()
+{
 	bombPlanted = false;
 	bombIsExploded = false;
-	cmdMessenger.feedinSerialData();
+	bombIsDefused = false;
+	winCondition = false;
 }

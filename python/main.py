@@ -61,6 +61,11 @@ def GetValue(obj, *args):
 
 # Signal handler to close serial port on interrupt
 def signal_handler(signal, frame):
+    serial_cmd = b"8;"
+    try:
+        __ser__.write(serial_cmd)
+    except Exception:
+        pass
     __ser__.close()
     sys.exit(0)
 
@@ -136,6 +141,16 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
 
+    def tWins(self, serial_id = 9):
+        logger.info('Terrorists win')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
+    def ctWins(self, serial_id = 10):
+        logger.info('Counter terrorism wins')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
     # Send HTTP response
     def sendResponse(self):
         response = bytes("RESPONSE", encoding="utf-8")
@@ -161,40 +176,47 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.menu()
         elif GetValue(payload, 'player', 'activity') == 'playing':
             # Player is playing
-            # Check flashed state
-            flashed = GetValue(payload, 'player', 'state', 'flashed')
-            if (not flashed or flashed == 0):
-                # Player is not flashed
-                # Check bomb state
-                bomb = GetValue(payload, 'round', 'bomb')
-                if (bomb == 'planted'):
-                    # Bomb has been planted
-                    self.bomb()
-                elif (bomb == 'exploded'):
-                    # Bomb exploded
-                    self.bombExploded()
-                elif (bomb == 'defused'):
-                    # Bomb was defused
-                    self.bombDefused()
-                else:
-                    # Bomb has not been planted yet
-                    # Set team colors
-                    team = GetValue(payload, 'player', 'team')
-                    if (team == 'T'):
-                        # Player plays terrorist
-                        self.teamT()
-                    elif (team == 'CT'):
-                        # Player plays counter-terrorism
-                        self.teamCT()
-                    else:
-                        # Not in a team currently so set menu color
-                        self.menu()
+            # Check bomb state
+            bomb = GetValue(payload, 'round', 'bomb')
+            if (bomb == 'planted'):
+                # Bomb has been planted
+                self.bomb()
+            elif (bomb == 'exploded'):
+                # Bomb exploded
+                self.bombExploded()
+            elif (bomb == 'defused'):
+                # Bomb was defused
+                self.bombDefused()
             else:
-                # Player is flashed so override all colors with whiteout
-                self.flashed(flashed=flashed)
-            
-            
-                
+                # Bomb has not been planted yet
+                # Check win conditions
+                winTeam = GetValue(payload, 'round', 'win_team')
+                if (winTeam == 'T'):
+                    # Terrorists win
+                    self.tWins()
+                elif (winTeam == 'CT'):
+                    # Counter terrorists win
+                    self.ctWins()
+                else:
+                    # Check flashed state
+                    flashed = GetValue(payload, 'player', 'state', 'flashed')
+                    if (not flashed or flashed == 0):
+                        # Player is not flashed
+                        # Set team colors
+                        team = GetValue(payload, 'player', 'team')
+                        if (team == 'T'):
+                            # Player plays terrorist
+                            self.teamT()
+                        elif (team == 'CT'):
+                            # Player plays counter-terrorism
+                            self.teamCT()
+                        else:
+                            # Not in a team currently so set menu color
+                            self.menu()
+                    else:
+                        # Player is flashed so override all colors with whiteout
+                        self.flashed(flashed=flashed)
+                        
         self.sendResponse()
 
     do_PUT = do_POST
