@@ -29,14 +29,18 @@ logzero.loglevel(20)
 # Read configuration data from json file
 logger.info("Reading config...")
 __config__ = {}
-with open('config.json') as json_data_file:
-    __config__ = json.load(json_data_file)
+try:
+    with open('config.json') as json_data_file:
+        __config__ = json.load(json_data_file)
+except Exception:
+    logger.error("Could not read config.json! Make sure it is correctly set up.")
+    exit(1)
 
 # Connect to Arduino over specified serial port
 logger.info("Opening serial connection...")
 try:
     __ser__ = serial.Serial(__config__['serial']['port'], __config__['serial']['baudrate'], timeout=1)
-except Exception as e:
+except Exception:
     logger.error("Could not connect! Check your config file and your Arduino connection.")
     exit(1)
 
@@ -70,12 +74,18 @@ class RequestHandler(BaseHTTPRequestHandler):
     # Send serial command
     def SendCmd(self, id):
         serial_cmd = (b"%d;") % (id)
-        __ser__.write(serial_cmd)
+        self.SerialSend(serial_cmd)
 
     # Send serial command with an integer argument
     def SendCmdWithIntArg(self, id, arg):
         serial_cmd = (b"%d,%d;" % (id, arg))
-        __ser__.write(serial_cmd)
+        self.SerialSend(serial_cmd)
+
+    def SerialSend(self, data):
+        try:
+            __ser__.write(data)
+        except Exception:
+            logger.error("Could not send data to Arduino! Check your connection.")
 
     # Player is in a menu
     def menu(self, serial_id = 1):
