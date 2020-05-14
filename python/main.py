@@ -151,6 +151,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
 
+    def burning(self, serial_id = 11):
+        logger.info('Player is burning')
+        self.SendCmd(serial_id)
+        self._currentStatus = serial_id
+
     # Send HTTP response
     def sendResponse(self):
         response = bytes("RESPONSE", encoding="utf-8")
@@ -202,17 +207,24 @@ class RequestHandler(BaseHTTPRequestHandler):
                     flashed = GetValue(payload, 'player', 'state', 'flashed')
                     if (not flashed or flashed == 0):
                         # Player is not flashed
-                        # Set team colors
-                        team = GetValue(payload, 'player', 'team')
-                        if (team == 'T'):
-                            # Player plays terrorist
-                            self.teamT()
-                        elif (team == 'CT'):
-                            # Player plays counter-terrorism
-                            self.teamCT()
+                        # Check burning state
+                        burning = GetValue(payload, 'player', 'state', 'burning')
+                        if (not burning or burning < 255):
+                            # Player is not burning
+                            # Set team colors
+                            team = GetValue(payload, 'player', 'team')
+                            if (team == 'T'):
+                                # Player plays terrorist
+                                self.teamT()
+                            elif (team == 'CT'):
+                                # Player plays counter-terrorism
+                                self.teamCT()
+                            else:
+                                # Not in a team currently so set menu color
+                                self.menu()
                         else:
-                            # Not in a team currently so set menu color
-                            self.menu()
+                            # Player is burning
+                            self.burning()
                     else:
                         # Player is flashed so override all colors with whiteout
                         self.flashed(flashed=flashed)
