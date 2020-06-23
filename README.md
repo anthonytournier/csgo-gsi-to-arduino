@@ -1,6 +1,6 @@
 # CSGO: Game State Integration to Arduino
 
-Send CSGO:GSI datas to Arduino throught serial communication
+Send CSGO:GSI data to Arduino throught serial communication
 
 ### Prerequisites
 
@@ -26,8 +26,10 @@ Upload the `arduino/main.ino` to your Arduino.
 #### Python Server
 
 ##### Linux
+Copy the repository URL using the green clone widget on the top right.
+Then use the commands listed below to install the required software.
 ```
-$ git clone https://github.com/bastianschildknecht/csgo-gsi-to-arduino.git
+$ git clone <Copied repository URL>
 $ cd csgo-gsi-to-arduino/python
 $ python -m pip install -r requirements.txt
 $ cp config.json.dist config.json
@@ -57,11 +59,13 @@ python ./main.py
 The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
 
 ##### Windows
+Copy the repository URL using the green clone widget on the top right.
+Then use the commands listed below to install the required software.
 ```
-$ git clone https://github.com/bastianschildknecht/csgo-gsi-to-arduino.git
+$ git clone <Copied repository URL>
 $ cd csgo-gsi-to-arduino/python
 $ python -m pip install -r requirements.txt
-$ cp config.json.dist config.json
+$ copy config.json.dist config.json
 ```
 
 Fill `config.json` with your parameters:
