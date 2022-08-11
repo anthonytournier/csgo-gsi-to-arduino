@@ -1,12 +1,13 @@
 # CSGO: Game State Integration to Arduino
 
-Send CSGO:GSI datas to Arduino throught serial communication
+Send CSGO:GSI data to Arduino throught serial communication
 
 ### Prerequisites
 
 ```
-Python 2
+Python 3
 PIP
+git
 ```
 
 ### Materials
@@ -24,27 +25,82 @@ Upload the `arduino/main.ino` to your Arduino.
 
 #### Python Server
 
+##### Linux
+Copy the repository URL using the green clone widget on the top right.
+Then use the commands listed below to install the required software.
 ```
-$ git clone https://github.com/synyster0fa7x/csgo-gsi-to-arduino.git
+$ git clone <Copied repository URL>
 $ cd csgo-gsi-to-arduino/python
 $ python -m pip install -r requirements.txt
 $ cp config.json.dist config.json
 ```
 
-Fill `config.json` with your parameters then launch the server with :
-
+Fill `config.json` with your parameters:
+Example:
 ```
-python main.py
+{
+    "csgogsi":{
+        "ip":"localhost",
+        "port":"3000",
+        "secret":"MY_SECRET_PHRASE"
+    },
+    "serial":{
+        "port": "/dev/ttyACM0",
+        "baudrate": 9600
+    }
+}
 ```
 
-The server is now listenning for POST request then send the datas to your Arduino throught serial COM.
+Then launch the server with :
+```
+python ./main.py
+```
+
+The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
+
+##### Windows
+Copy the repository URL using the green clone widget on the top right.
+Then use the commands listed below to install the required software.
+```
+$ git clone <Copied repository URL>
+$ cd csgo-gsi-to-arduino/python
+$ python -m pip install -r requirements.txt
+$ copy config.json.dist config.json
+```
+
+Fill `config.json` with your parameters:
+Example:
+```
+{
+    "csgogsi":{
+        "ip":"localhost",
+        "port":"3000",
+        "secret":"MY_SECRET_PHRASE"
+    },
+    "serial":{
+        "port": "COM3",
+        "baudrate": 9600
+    }
+}
+```
+
+Then launch the server with:
+```
+python .\main.py
+```
+
+The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
 
 
 #### CS:GO Server
 
 Copy the `.cfg` file into your CS:GO config's directory. This is mine for exemple : 
 
-`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\` 
+`C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\csgo\cfg\`
+
+You can rename the last part of the config name to whatever you want to avoid conflicts with other GSI services.
+Example name:
+`gamestate_integration_stagelighting.cfg`
 
 then restart CS:GO.
 
