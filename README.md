@@ -1,10 +1,12 @@
 # This is a fork
+[Original](https://github.com/synyster0fa7x/csgo-gsi-to-arduino)
+
 # CSGO: Game State Integration to Arduino
 
 Thanks to http://embryonic.dk/wordpress/?p=867
 for calculating the formula needed to sync the LED blink with the bomb beep
 
-Send CSGO:GSI data to Arduino through serial communication
+Send CSGO:GSI data from python to Arduino through serial communication
 
 ### Prerequisites
 
@@ -25,7 +27,7 @@ I used 1K transistor with TIP41C transistor
 
 #### Arduino
 
-Upload the `arduino/main.ino` to your Arduino.
+Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
 
 #### Python Server
 
