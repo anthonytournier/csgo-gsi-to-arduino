@@ -31,7 +31,13 @@ git
 * 12V LED Strip RGB 4 Pins
 * I used 1K resistor with TIP41C transistor
 
-### Installation
+## Installation
+
+#### Windows installer
+
+
+
+
 
 #### Arduino
 
