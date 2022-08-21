@@ -22,7 +22,8 @@ git
 * 3 resistors 100Ω
 * 3 N-Channel MOSFETs / Transistors
 * 12V LED Strip RGB 4 Pins
-I used 1K transistor with TIP41C transistor
+* I used 1K resistor with TIP41C transistor
+
 ### Installation
 
 #### Arduino
@@ -92,7 +93,8 @@ Example:
 
 Then launch the server with:
 ```
-python .\main.py
+Open CMD then type...
+python main.py
 ```
 
 The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
