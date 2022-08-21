@@ -4,7 +4,14 @@
 # CSGO: Game State Integration to Arduino
 
 Thanks to http://embryonic.dk/wordpress/?p=867
-for calculating the formula needed to sync the LED blink with the bomb beep
+for calculating the formula needed to sync the LED blink with the bomb beep.
+
+"Shortly after Valve released the game state API, they turned down the accuracy of the bomb timer since it could have been used for cheating . You would have been replacing game sense (“how much time do I have left to defuse the bomb?”) with automation."
+
+Not sure how true that stament is, but the bomb sync is off sometimes.
+
+########################################################################
+
 
 Send CSGO:GSI data from python to Arduino through serial communication
 
