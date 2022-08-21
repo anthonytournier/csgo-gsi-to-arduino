@@ -8,20 +8,12 @@ for calculating the formula needed to sync the LED blink with the bomb beep.
 
 "Shortly after Valve released the game state API, they turned down the accuracy of the bomb timer since it could have been used for cheating . You would have been replacing game sense (“how much time do I have left to defuse the bomb?”) with automation."
 
-Not sure how true that stament is, but the bomb sync is off sometimes.
+Not sure how true that statement is, but the bomb sync is out sometimes.
 
 ########################################################################
 
 
 Send CSGO:GSI data from python to Arduino through serial communication
-
-### Prerequisites
-
-```
-Python 3
-PIP
-git
-```
 
 ### Materials
 
@@ -35,11 +27,30 @@ git
 
 #### Windows installer
 
+1. Download and install exe from https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases/tag/v1.0.0
+2. Connect your Arduino to your PC via USB
+3. Go to "Device Manager" and look under COM LPT for the COMport number of your Arduino
+4. Navigate to `C:\Program Files(x86)\CSGO Stage light` and edit the `config.json` file at line 8 with the COM number you found from step 3
+5. Navigate to `C:\Users\User\Documents\Arduino\CSGO_lighting_controller` and open `CSGO_lighting_controller.ino`
+6. After the Arduino IDE loads, select your board from the Tools menu
+7. Select your Port number from the tools menu (will be the same as in step 3)
+8. Upload the sketch (check for any errors at the bottom)
+9. Navigate to your dekstop. Open the file `CSGO Light Controller`
 
+You should now see a CMD window with some text inside about starting server and connection status to Arduino. Check for any errors.
 
+### Manual install
 
+#### Prerequisites
+
+```
+Python 3
+PIP
+git
+```
 
 #### Arduino
+My Arduino files are stored in tabs.
 
 Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
 
@@ -61,7 +72,7 @@ Example:
 {
     "csgogsi":{
         "ip":"localhost",
-        "port":"3000",
+        "port":"61500",
         "secret":"MY_SECRET_PHRASE"
     },
     "serial":{
@@ -76,7 +87,7 @@ Then launch the server with :
 python ./main.py
 ```
 
-The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
+The server is now listenning for POST request from CSGO and sends the data to your Arduino through serial COM.
 
 #### Windows
 Copy the repository URL using the green clone widget on the top right.
@@ -94,23 +105,24 @@ Example:
 {
     "csgogsi":{
         "ip":"localhost",
-        "port":"3000",
+        "port":"61500",
         "secret":"MY_SECRET_PHRASE"
     },
     "serial":{
         "port": "COM3",
-        "baudrate": 9600
+        "baudrate": 115200
     }
 }
 ```
 
-Then launch the server with:
+Then launch the server:
 ```
-Open CMD then type...
+Navigate to where you have the python file, Hold left shift and right click on any white space, select open command prompt window here
+In the CMD window type the below text...
 python main.py
 ```
 
-The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
+The server is now listenning for POST request from CSGO and sends the data to your Arduino through serial COM.
 
 
 #### CS:GO Server
