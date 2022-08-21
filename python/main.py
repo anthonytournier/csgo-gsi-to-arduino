@@ -205,7 +205,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         
         body = self.rfile.read(length).decode("utf-8")
         logger.debug("Received data:\n" + body)
-        print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Received data:\n" + body)
+        # print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Received data:\n" + body)
         payload = json.loads(body)            
         
 # Process data and send commands to Arduino over serial        
