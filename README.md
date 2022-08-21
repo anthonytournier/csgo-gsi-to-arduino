@@ -72,7 +72,7 @@ python ./main.py
 
 The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
 
-##### Windows
+#### Windows
 Copy the repository URL using the green clone widget on the top right.
 Then use the commands listed below to install the required software.
 ```
