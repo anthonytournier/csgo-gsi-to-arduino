@@ -1,6 +1,10 @@
+# This is a fork
 # CSGO: Game State Integration to Arduino
 
-Send CSGO:GSI data to Arduino throught serial communication
+Thanks to http://embryonic.dk/wordpress/?p=867
+for calculating the formula needed to sync the LED blink with the bomb beep
+
+Send CSGO:GSI data to Arduino through serial communication
 
 ### Prerequisites
 
@@ -14,9 +18,9 @@ git
 
 * Arduino (Uno, Mega, Mini...)
 * 3 resistors 100Ω
-* 3 N-Channel MOSFETs
+* 3 N-Channel MOSFETs / Transistors
 * 12V LED Strip RGB 4 Pins
-
+I used 1K transistor with TIP41C transistor
 ### Installation
 
 #### Arduino
