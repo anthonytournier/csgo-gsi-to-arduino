@@ -1,13 +1,20 @@
 #include <ArduinoJson.h>
 #include <CmdMessenger.h>
 #include <Countimer.h>
-Countimer tDown;
+#include <jled.h>
 
 #define REDPIN 5
 #define GREENPIN 6
 #define BLUEPIN 3
 #define BUFFER_SIZE 500
 #define BAUD_RATE 115200
+
+bool freezetime_breath = 1;
+bool low_health_breath = 1;
+
+Countimer tDown;
+auto freezetime_sequence = JLed(BLUEPIN).Breathe(2000).Forever();
+bool freezetime_sequence_run = 0;
 
 bool bombPlanted = false;
 bool bombLight = false;
@@ -31,7 +38,7 @@ int bombColorOff[3] = {0, 0, 0};
 int explodedColor[3] = {255, 0, 0};   // Red
 int defusedColor[3] = {255, 135, 0};  // Orange
 int offColor[3] = {0, 0, 0};
-int menuColor[3] = {255, 180, 255};     // Voilet       
+int menuColor[3] = {255, 180, 255};     // Voilet
 int flashedColor[3] = {0, 0, 0};
 int burningColor[3] = {255, 180, 0};
 int randomColor[3] = {0, 0, 0};
@@ -108,7 +115,7 @@ void setup()
   digitalWrite(BLUEPIN, LOW);
   digitalWrite(GREENPIN, HIGH);
   delay(1000);
-  
+
   setColor(offColor);
   initSerial();
 }
@@ -117,6 +124,11 @@ void loop()
 {
   //tDown.run();
   currentTime = millis();
+
+  if (freezetime_sequence_run) {
+    freezetime_sequence.Update();
+  }
+
   // Handle bomb blinking
   bombtimeleft = tDown.getCurrentSeconds();
   if (!winCondition && state == bombPlanted) {
