@@ -85,7 +85,14 @@ void ctWin() {
 }
 
 void freezetime() {
-  setColor(freezetimeColor);
+  if (freezetime_breath) {
+    setColor(offColor);
+    freezetime_sequence.Reset();
+    freezetime_sequence_run = 1;
+  }
+  else {
+    setColor(freezetimeColor);
+  }
   resetSpecialState();
   bombBeeps = 0;
   state = 5;
@@ -96,19 +103,26 @@ void live() {
   if (bombPlanted == 0) {
     setColor(roundliveColor);
     resetSpecialState();
+    freezetime_sequence.Stop();
+    freezetime_sequence_run = 0;
   }
   roundlive = 1;
 }
 
 void healthupdate() {
-  if (!isFlashed && roundlive){
-  health = cmdMessenger.readInt16Arg();
-  //map(value, fromLow, fromHigh, toLow, toHigh)
-  health = map(health,1,100,20,255);
-  analogWrite(GREENPIN, health);
-  cmdMessenger.feedinSerialData();
-  //setColorhealth(roundliveColor);
-}}
+  if (!isFlashed && roundlive && !bombIsDefused && !bombIsExploded) {
+    health = cmdMessenger.readInt16Arg();
+    //map(value, fromLow, fromHigh, toLow, toHigh)
+    int health_fade = map(health, 1, 100, 20, 255);
+    analogWrite(REDPIN, 0);
+    analogWrite(GREENPIN, health_fade);
+    if (health == 0) {
+      setColor(bombColor);
+    }
+    cmdMessenger.feedinSerialData();
+    //setColorhealth(roundliveColor);
+  }
+}
 
 void serverstopped() {
   setColor(offColor);
