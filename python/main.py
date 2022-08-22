@@ -48,6 +48,7 @@ logger.info("Opening serial connection...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Opening serial connection...")
 try:
     __ser__ = serial.Serial(__config__['serial']['port'], __config__['serial']['baudrate'], timeout=1)
+    print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Connected to Arduino on " + str(__config__['serial']['port']))
 except Exception:
     logger.error("Could not connect! Check your config file and your Arduino connection.")
     print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Could not connect! Check your config file and your Arduino connection.")
@@ -101,7 +102,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             __ser__.write(data)
         except Exception:
             print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Could not send data to Arduino! Check your connection.")
-            exit(1)
+            # exit(1)
 
 # Player is in a menu
     def menu(self, serial_id = 1):
@@ -287,4 +288,5 @@ server = HTTPServer((__config__['csgogsi']['ip'], port), handler)
 # Start server
 logger.info("Starting server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Starting server...")
+print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Listening at " + str(__config__['csgogsi']['ip'] + ":" + str(port)) )
 server.serve_forever()
