@@ -53,8 +53,17 @@ git
 #### Arduino
 My Arduino files are stored in tabs.
 
+Used libraries...
+```
+Arduino_JSON
+CmdMessenger
+Countimer-master
+JLed
+```
+To install libraries, open Arduino IDE, select Sketch fromt the menu, Include Library , Manage Libraries.
+In the search bar type the names as mentioned above and click install.
+
 Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
-Copy the JLed arduino library to /users/documents/arduino/libraries.
 
 #### Python Server
 
