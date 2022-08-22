@@ -101,7 +101,7 @@ void live() {
 }
 
 void healthupdate() {
-  if (!isFlashed){
+  if (!isFlashed && roundlive){
   health = cmdMessenger.readInt16Arg();
   //map(value, fromLow, fromHigh, toLow, toHigh)
   health = map(health,1,100,20,255);
