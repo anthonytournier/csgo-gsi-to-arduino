@@ -158,6 +158,20 @@ Set
 
 ![csgo gsi led strip arduino](arduino/wiring.png)
 
+# Features
+
+* Round Live - default color Green (brightness will drop as your health drops)
+* Freezetime - deafult color Blue with breathing effect (can be configured to be solid blue, see note above)
+* Health at 0 - deafult color is Red
+* Burning - default color is yellowish (Will keep this state while player is burning then switch back to live)
+* Flashed - deafult color White (will fade away as the flash fades in game)
+* Bomb planted - default color Red (flashing and gradually increasing in flash timing - Not perfect all the time though)
+* Bomb exploded - default color rainbow fast flashing
+* Bomb defused -
+*
+*
+*
+
 ## Built With
 
 * [Python](https://www.python.org/)
