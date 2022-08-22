@@ -38,6 +38,7 @@ Send CSGO:GSI data from python to Arduino through serial communication
 9. Navigate to your dekstop. Open the file `CSGO Light Controller`
 
 You should now see a CMD window with some text inside about starting server and connection status to Arduino. Check for any errors.
+If all good your arduino will flash all the colors in sequence once. Red, Blue, Green (need to swap that)
 
 ### Manual install
 
