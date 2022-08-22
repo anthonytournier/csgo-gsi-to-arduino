@@ -101,12 +101,14 @@ void live() {
 }
 
 void healthupdate() {
+  if (!isFlashed){
   health = cmdMessenger.readInt16Arg();
   //map(value, fromLow, fromHigh, toLow, toHigh)
   health = map(health,1,100,20,255);
   analogWrite(GREENPIN, health);
+  cmdMessenger.feedinSerialData();
   //setColorhealth(roundliveColor);
-}
+}}
 
 void serverstopped() {
   setColor(offColor);
