@@ -54,6 +54,7 @@ git
 My Arduino files are stored in tabs.
 
 Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
+Copy the JLed arduino library to /users/documents/arduino/libraries.
 
 #### Python Server
 
