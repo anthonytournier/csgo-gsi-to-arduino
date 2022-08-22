@@ -139,6 +139,12 @@ Example name:
 
 then restart CS:GO.
 
+## Notes
+The JLed library is used to create a breathing effect when in freezetime. If you want a solid color during freezetime then edit the arduino file in the main sketch, then upload the sketch again.
+
+Set
+> freezetime_breath = 0.
+
 ### Wiring
 
 ![csgo gsi led strip arduino](arduino/wiring.png)
