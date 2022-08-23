@@ -55,7 +55,6 @@ void bomb() {
 void bombExploded() {
   setRandomColor();
   bombPlanted = false;
-  bombIsExploded = false;
   bombIsExploded = true;
   roundlive = 0;
   //tDown.stop();
