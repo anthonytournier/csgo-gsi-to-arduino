@@ -162,7 +162,7 @@ Set
 
 * Round Live - default color Green (brightness will drop as your health drops)
 * Freezetime - default color Blue with breathing effect (can be configured to be solid blue, see note above)
-* Health at 0 - default color is Red
+* Health at 0 - default color is Red (When you spectate a player, the strip will change to Green)
 * Burning - default color is yellowish (Will keep this state while player is burning then switch back to live)
 * Flashed - default color White (will fade away as the flash fades in game)
 * Bomb planted - default color Red (flashing and gradually increasing in flash timing - Not perfect all the time though)
