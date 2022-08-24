@@ -3,10 +3,8 @@ import os
 import sys
 from subprocess import Popen, PIPE, STDOUT
 from threading import Thread
-
 from tkinter import *
 import tkinter.scrolledtext as scrolledtext
-
 import time
 import json
 import serial
@@ -37,19 +35,19 @@ class ShowProcessOutputDemo:
         self.text.pack(expand=True, fill='both')
 
     def read_output(self, pipe):
+        global data2
         """Read subprocess' output and store it in `self.stdout_data`."""
         while True:
             data = os.read(pipe.fileno(), 1 << 20)
             # Windows uses: "\r\n" instead of "\n" for new lines.
-            # data = data.replace(b"\r\n", b"\n")
+            data = data.replace(b"\r\n", b"\n")
             if data:
                 info("got: %r", data)
                 #self.stdout_data += data.decode()
-                #if "220824" in data:
-                    #self.text['foreground'] = ('red')
-                #else:
-                    #self.text['foreground'] = ('yellow')
-                self.text.insert(tk.END,data)
+                data2 += data.decode()
+                data3 = data2.replace('] "POST / HTTP/1.1" 200 -',"")
+                data3 = data3.replace('127.0.0.1 - - [',"")
+                self.text.insert(tk.END,data3)
                 self.text.see(tk.END)
             else:  # clean up
                 info("eof")
@@ -71,6 +69,7 @@ class ShowProcessOutputDemo:
 
     def stop(self, stopping=[]):
         """Stop subprocess and quit GUI."""
+        self.text.insert(tk.END,"Stop COMMAND recieved.")
         if stopping:
             return # avoid killing subprocess more than once
         stopping.append(True)
@@ -116,7 +115,7 @@ class ShowProcessOutputDemo:
             time.sleep(2)
             self.proc.stdout.close()  # close fd
             self.proc.wait()          # wait for the subprocess' exit
-            #self.root.destroy()       # exit GUI
+            self.root.destroy()       # exit GUI
             try:
                 __ser__.close()
             except Exception:
