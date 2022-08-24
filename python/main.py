@@ -30,6 +30,7 @@ logzero.loglevel(0)
 bombplanted = 0
 livegame = 0
 burnsendonce = 0
+healthprev = 0
 
 # Read configuration data from json file
 logger.info("Reading config...")
@@ -116,7 +117,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         logger.info('Flashed (0-255): %d' %(flashed))
         self.SendCmdWithIntArg(serial_id, flashed)
         self._currentStatus = serial_id
-        print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player is flashed")
+        print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player is flashed"  + str(flashed))
     
 # Bomb has been planted
     def bomb(self, serial_id = 3):
@@ -203,6 +204,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         global bombplanted
         global livegame
         global burnsendonce
+        global healthprev
         
         body = self.rfile.read(length).decode("utf-8")
         logger.debug("Received data:\n" + body)
@@ -263,7 +265,9 @@ class RequestHandler(BaseHTTPRequestHandler):
                         self.live()
                         livegame = 1
             health = GetValue(payload, 'player', 'state', 'health')
-            self.health(health=health)
+            if (health != healthprev):
+                self.health(health=health)
+                healthprev = health
         self.sendResponse()
 
     do_PUT = do_POST
