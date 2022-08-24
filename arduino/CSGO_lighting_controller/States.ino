@@ -5,10 +5,10 @@ void unknownCmd() {
 
 void onMenu() {
   if (roundlive == 0) {
-    setColor(menuColor);
-    resetSpecialState();
     freezetime_sequence.Stop();
     freezetime_sequence_run = 0
+    setColor(menuColor);
+    resetSpecialState();
     cmdMessenger.feedinSerialData();
   }
 }
