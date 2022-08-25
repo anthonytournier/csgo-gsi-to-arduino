@@ -4,13 +4,10 @@ void unknownCmd() {
 }
 
 void onMenu() {
-  if (roundlive == 0) {
     freezetime_sequence.Stop();
-    freezetime_sequence_run = 0
+    freezetime_sequence_run = 0;
     setColor(menuColor);
-    resetSpecialState();
     cmdMessenger.feedinSerialData();
-  }
 }
 
 void flashed() {
