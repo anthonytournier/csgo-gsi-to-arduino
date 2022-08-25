@@ -125,7 +125,7 @@ class ShowProcessOutputDemo:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 root = tk.Tk()
 root.iconbitmap('favicon.ico')
-root.geometry('650x200')
+root.geometry('300x200')
 root.title('CSGO Stage Light')
 app = ShowProcessOutputDemo(root)
 root.protocol("WM_DELETE_WINDOW", app.stop) # exit subprocess if GUI is closed
