@@ -171,8 +171,7 @@ Set
 * On Menu - default color Voilet
 * T win - default color Yellow fading on and off
 * CT Win - default color Blue fasing on and off
-* GUI to select breathing color or conenct GSI server
-
+* GUI to select breathing color or connect GSI server. [See Here](https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/tree/develop/python/)
 ## Built With
 
 * [Python](https://www.python.org/)
