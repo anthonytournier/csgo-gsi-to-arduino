@@ -34,7 +34,9 @@ void burning() {
     burnint = cmdMessenger.readInt16Arg();
   }
   if (burnint == 0) {
-    setColor(roundliveColor);
+    analogWrite(REDPIN, 0);
+    analogWrite(BLUEPIN, 0);
+    analogWrite(GREENPIN, health_fade);
   }
   cmdMessenger.feedinSerialData();
 }
@@ -113,7 +115,7 @@ void healthupdate() {
   if (!isFlashed && roundlive && !bombIsDefused && !bombIsExploded) {
     health = cmdMessenger.readInt16Arg();
     //map(value, fromLow, fromHigh, toLow, toHigh)
-    int health_fade = map(health, 1, 100, 20, 255);
+    health_fade = map(health, 1, 100, 20, 255);
     analogWrite(REDPIN, 0);
     analogWrite(GREENPIN, health_fade);
     if (health == 0) {
