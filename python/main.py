@@ -33,27 +33,21 @@ burnsendonce = 0
 healthprev = 0
 
 # Read configuration data from json file
-logger.info("Reading config...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Reading config...")
 __config__ = {}
 try:
     with open('config.json') as json_data_file:
         __config__ = json.load(json_data_file)
 except Exception:
-    logger.error("Could not read config.json! Make sure it is correctly set up.")
     print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Could not read config.json! Make sure it is correctly set up.")
-    # exit(1)
 
 # Connect to Arduino over specified serial port
-logger.info("Opening serial connection...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Opening serial connection...")
 try:
     __ser__ = serial.Serial(__config__['serial']['port'], __config__['serial']['baudrate'], timeout=1)
     print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Connected to Arduino on " + str(__config__['serial']['port']))
 except Exception:
-    logger.error("Could not connect! Check your config file and your Arduino connection.")
-    print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Could not connect! Check your config file and your Arduino connection.")
-    # exit(1)
+    print(" Could not connect! Check your config file and your Arduino connection.")
 
 # Get game state value if available
 def GetValue(obj, *args):
