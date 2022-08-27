@@ -171,6 +171,7 @@ Set
 * On Menu - default color Voilet
 * T win - default color Yellow fading on and off
 * CT Win - default color Blue fasing on and off
+* GUI to select breathing color or conenct GSI server
 
 ## Built With
 
