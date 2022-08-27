@@ -15,6 +15,13 @@ Countimer tDown;
 auto freezetime_sequence = JLed(BLUEPIN).Breathe(2000).Forever();
 bool freezetime_sequence_run = 0;
 
+auto breathRed_jled = JLed(REDPIN).Breathe(3000).Forever();
+bool breathRed_run = 0;
+auto breathGreen_jled = JLed(GREENPIN).Breathe(3000).Forever();
+bool breathGreen_run = 0;
+auto breathBlue_jled = JLed(BLUEPIN).Breathe(3000).Forever();
+bool breathBlue_run = 0;
+
 bool bombPlanted = false;
 bool bombLight = false;
 
@@ -53,6 +60,7 @@ unsigned long bombLastBeep = 0; //when was the last beep of the bomb?
 int state = 5;
 int roundlive = 0;
 int health = 100;
+int health_fade;
 
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
 
@@ -88,6 +96,12 @@ void attachCommandCallbacks()
   cmdMessenger.attach(11, live);
   cmdMessenger.attach(12, serverstopped);
   cmdMessenger.attach(13, healthupdate);
+
+  cmdMessenger.attach(20, breathRed);
+  cmdMessenger.attach(21, breathGreen);
+  cmdMessenger.attach(22, breathBlue);
+  cmdMessenger.attach(23, breathOff);
+
   cmdMessenger.attach(unknownCmd);
 }
 
@@ -126,6 +140,18 @@ void loop()
 
   if (freezetime_sequence_run) {
     freezetime_sequence.Update();
+  }
+
+  if (breathRed_run) {
+    breathRed_jled.Update();
+  }
+
+  if (breathGreen_run) {
+    breathGreen_jled.Update();
+  }
+
+  if (breathBlue_run) {
+    breathBlue_jled.Update();
   }
 
   // Handle bomb blinking
