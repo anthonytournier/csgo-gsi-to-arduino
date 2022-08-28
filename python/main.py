@@ -5,9 +5,6 @@ import json
 import signal
 import sys
 import serial
-import logzero
-import logging
-from logzero import logger
 import datetime
 import time
 
@@ -15,18 +12,6 @@ __author__ = "Anthony Tournier, Bastian Schildknecht"
 __version__ = "0.2.0"
 __license__ = "MIT"
 
-# Configure logger
-# Set loglevel
-"""
-Levels are:
-NOTSET:     0
-DEBUG:      10
-INFO:       20
-WARNING:    30
-ERROR:      40
-CRITICAL:   50
-"""
-logzero.loglevel(0)
 bombplanted = 0
 livegame = 0
 burnsendonce = 0
@@ -57,7 +42,6 @@ def GetValue(obj, *args):
             try:
                 obj = obj[arg]
             except KeyError:
-                logger.debug("Key '" + arg + "' not found!")
                 return None
         return obj
     else:
@@ -271,7 +255,6 @@ class RequestHandler(BaseHTTPRequestHandler):
 # -------------------------
 # Server Setup
 # -------------------------
-logger.info("Setting up server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Setting up server...")
 
 # Read port from config
@@ -284,7 +267,6 @@ handler = RequestHandler
 server = HTTPServer((__config__['csgogsi']['ip'], port), handler)
 
 # Start server
-logger.info("Starting server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Starting server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Listening at " + str(__config__['csgogsi']['ip'] + ":" + str(port)) )
 server.serve_forever()
