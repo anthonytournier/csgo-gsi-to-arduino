@@ -36,6 +36,7 @@ bool isFlashed = false;
 
 bool fadeInProgress = false;
 int fadeSpeed = 10;
+int fadeSpeedMulti = 5;
 
 int terroColor[3] = {255, 255, 0};    // Yellow
 int counterColor[3] = {0, 0, 255};    // Blue
@@ -61,6 +62,7 @@ int state = 5;
 int roundlive = 0;
 int health = 100;
 int health_fade;
+bool multifade_seq = 0;
 
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
 
@@ -101,6 +103,7 @@ void attachCommandCallbacks()
   cmdMessenger.attach(21, breathGreen);
   cmdMessenger.attach(22, breathBlue);
   cmdMessenger.attach(23, breathOff);
+  cmdMessenger.attach(24, multifade);
 
   cmdMessenger.attach(unknownCmd);
 }
@@ -152,6 +155,10 @@ void loop()
 
   if (breathBlue_run) {
     breathBlue_jled.Update();
+  }
+
+  if (multifade_seq == 1){
+    run_multifade();
   }
 
   // Handle bomb blinking
