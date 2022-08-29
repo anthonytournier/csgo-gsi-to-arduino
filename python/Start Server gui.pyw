@@ -54,7 +54,7 @@ class ShowProcessOutputDemo:
         # Scrolling text area
         self.text = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=44, height=12)
         self.text['font'] = ('consolas', '12')
-        self.text['background'] = ('green')
+        self.text['background'] = ('black')
         self.text['foreground'] = ('yellow')
         self.text.place(x=0, y=70)
     
@@ -123,14 +123,19 @@ class ShowProcessOutputDemo:
         self.text.see(tk.END)
     
     def read_output(self, pipe):
+        global data2
         """Read subprocess' output and store it in `self.stdout_data`."""
         while True:
             data = os.read(pipe.fileno(), 1 << 20)
             # Windows uses: "\r\n" instead of "\n" for new lines.
-            # data = data.replace(b"\r\n", b"\n")
+            data = data.replace(b"\r\n", b"\n")
             if data:
                 info("got: %r", data)
-                self.text.insert(tk.END,data)
+                #self.stdout_data += data.decode()
+                data2 += data.decode()
+                data3 = data2.replace('] "POST / HTTP/1.1" 200 -',"")
+                data3 = data3.replace('127.0.0.1 - - [',"")
+                self.text.insert(tk.END,data3)
                 self.text.see(tk.END)
             else:  # clean up
                 info("eof")
@@ -334,3 +339,4 @@ except Exception:
 root.protocol("WM_DELETE_WINDOW", app.stop) # exit subprocess if GUI is closed
 root.mainloop()
 info("exited")
+
