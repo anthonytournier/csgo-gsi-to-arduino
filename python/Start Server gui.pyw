@@ -130,16 +130,16 @@ class ShowProcessOutputDemo:
             # Windows uses: "\r\n" instead of "\n" for new lines.
             data = data.replace(b"\r\n", b"\n")
             if data:
-                info("got: %r", data)
+                # info("got: %r", data)
                 #self.stdout_data += data.decode()
                 data2 += data.decode()
-                data3 = data2.replace('] "POST / HTTP/1.1" 200 -',"")
+                data3 = data2.replace('] "POST / HTTP/1.1" 200 -'," POST Ack.")
                 data3 = data3.replace('127.0.0.1 - - [',"")
-                self.text.insert(tk.END,data3)
+                self.text.insert(tk.END,data3 + '\r\n')
                 self.text.see(tk.END)
             else:  # clean up
                 info("eof")
-                self.root.after(5000, self.stop) # stop in 5 seconds
+                # self.root.after(5000, self.stop) # stop in 5 seconds
                 return None
 
     def start(self, starting=[]):
@@ -160,6 +160,14 @@ class ShowProcessOutputDemo:
         self.b1["state"] = "disabled"
 
     def stop(self, stopping=[]):
+        self.b1["state"] = "disabled"
+        self.b2["state"] = "disabled"
+        self.b3["state"] = "disabled"
+        self.b4["state"] = "disabled"
+        self.b5["state"] = "disabled"
+        self.b7["state"] = "disabled"
+        self.b8["state"] = "disabled"
+        self.b9["state"] = "disabled"
         self.text.insert(tk.END,"Stop command recieved\r\n")
         self.text.see(tk.END)
         """Stop subprocess."""
@@ -220,11 +228,6 @@ class ShowProcessOutputDemo:
                 __ser__.close()
             except Exception:
                 donthing = 1
-        self.b3["state"] = "normal"
-        self.b4["state"] = "normal"
-        self.b5["state"] = "normal"
-        self.b7["state"] = "normal"
-        self.b8["state"] = "normal"
         kill_after(countdown=5)
         
     def exit(self, exiting=[]):
