@@ -57,7 +57,6 @@ def GetValue(obj, *args):
             try:
                 obj = obj[arg]
             except KeyError:
-                logger.debug("Key '" + arg + "' not found!")
                 return None
         return obj
     else:
@@ -101,21 +100,18 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 # Player is in a menu
     def menu(self, serial_id = 1):
-        logger.info('On menu')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player is in menu")
 
 # Player is flashed
     def flashed(self, serial_id = 2, flashed = 0):
-        logger.info('Flashed (0-255): %d' %(flashed))
         self.SendCmdWithIntArg(serial_id, flashed)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player is flashed"  + str(flashed))
     
 # Bomb has been planted
     def bomb(self, serial_id = 3):
-        logger.info('Bomb has been planted')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         bombplanted = 1
@@ -123,45 +119,38 @@ class RequestHandler(BaseHTTPRequestHandler):
 
 # Bomb exploded
     def bombExploded(self, serial_id = 4):
-        logger.info('Bomb exploded')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Bomb exploded")
     
 # Bomb was defused
     def bombDefused(self, serial_id = 5):
-        logger.info('Bomb defused')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Bomb defused")
 
 # Not known state, set default color
     def defaultColor(self, serial_id = 6):
-        logger.info('Default state')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Not known state")
 
     def tWins(self, serial_id = 7):
-        logger.info('Terrorists win')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " T Win")
 
     def ctWins(self, serial_id = 8):
-        logger.info('Counter terrorism wins')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " CT Win")
 
     def burning(self, serial_id = 9, burning = 0):
-        logger.info('Burning (0-255): %d' %(burning))
         self.SendCmdWithIntArg(serial_id, burning)
         self._currentStatus = serial_id
         print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player is burning")
 
     def freezetime(self, serial_id = 10):
-        logger.info('Freezetime')
         self.SendCmd(serial_id)
         self._currentStatus = serial_id
         bombplanted = 0
@@ -169,17 +158,15 @@ class RequestHandler(BaseHTTPRequestHandler):
 
     def live(self, serial_id = 11):
         if (bombplanted == 0):
-            logger.info('Live')
             self.SendCmd(serial_id)
             self._currentStatus = serial_id
             print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Live")
 
 # Player health update
     def health(self, serial_id = 13, health = 0):
-        logger.info('Health (0-100): %d' %(health))
         self.SendCmdWithIntArg(serial_id, health)
         self._currentStatus = serial_id
-        print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player health update " + str(health))
+        print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Player health update " + str(health) + "%")
 
 # Send HTTP response
     def sendResponse(self):
@@ -201,7 +188,6 @@ class RequestHandler(BaseHTTPRequestHandler):
         global healthprev
         
         body = self.rfile.read(length).decode("utf-8")
-        logger.debug("Received data:\n" + body)
         # print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Received data:\n" + body)
         payload = json.loads(body)            
         
@@ -271,7 +257,6 @@ class RequestHandler(BaseHTTPRequestHandler):
 # -------------------------
 # Server Setup
 # -------------------------
-logger.info("Setting up server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Setting up server...")
 
 # Read port from config
@@ -284,7 +269,6 @@ handler = RequestHandler
 server = HTTPServer((__config__['csgogsi']['ip'], port), handler)
 
 # Start server
-logger.info("Starting server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Starting server...")
 print(str(datetime.datetime.now().strftime("%H:%M:%S.%f")[:-3]) + " Listening at " + str(__config__['csgogsi']['ip'] + ":" + str(port)) )
 server.serve_forever()
