@@ -157,7 +157,7 @@ void loop()
     breathBlue_jled.Update();
   }
 
-  if (multifade_seq == 1){
+  if (multifade_seq == 1) {
     run_multifade();
   }
 
