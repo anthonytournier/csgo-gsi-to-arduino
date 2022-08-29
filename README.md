@@ -27,6 +27,8 @@ Send CSGO:GSI data from python to Arduino through serial communication
 
 #### Windows installer
 
+![Untitled1](https://user-images.githubusercontent.com/47089904/187229773-882c0281-84a3-47a3-ae02-cd87c45514ef.jpg)
+
 1. Download and install exe from https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases/tag/v1.0.0
 2. Connect your Arduino to your PC via USB
 3. Go to "Device Manager" and look under COM LPT for the COMport number of your Arduino
@@ -36,11 +38,10 @@ Send CSGO:GSI data from python to Arduino through serial communication
 7. Select your Port number from the tools menu (will be the same as in step 3)
 8. Upload the sketch (check for any errors at the bottom)
 9. Navigate to your dekstop. Open the file `CSGO Light Controller`
+#### Note
+If you already have python installed then you should use the manual install instead
 
-You should now see a CMD window with some text inside about starting server and connection status to Arduino. Check for any errors.
-If all good your arduino will flash all the colors in sequence once. Red, Blue, Green (need to swap that)
-
-### Manual install
+## Manual install
 
 #### Prerequisites
 
@@ -60,7 +61,7 @@ CmdMessenger
 Countimer-master
 JLed
 ```
-To install libraries, open Arduino IDE, select Sketch fromt the menu, Include Library , Manage Libraries.
+To install libraries, open Arduino IDE, select Sketch from the menu >> Include Library >> Manage Libraries.
 In the search bar type the names as mentioned above and click install.
 
 Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
