@@ -23,6 +23,8 @@ Send CSGO:GSI data from python to Arduino through serial communication
 * 12V LED Strip RGB 4 Pins
 * I used 1K resistor with TIP41C transistor
 
+(I also added a 22K resistor from Base to ground) My Arduino gets power from the USB, so when the PC is off the Arduino has no power so the Base is not grounded anymore and has the possibility of switching on because my LED strip is connected to a constant on power supply. A transistor does not really need it. A mosfet on the other hand has to be grounded from Base to ground to make sure it switches off)
+
 ## Installation
 
 #### Windows installer
