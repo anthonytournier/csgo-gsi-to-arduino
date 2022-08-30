@@ -1,4 +1,4 @@
-https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases/tag/v1.0.0
+https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases
 
 
 Installer will check if python 3.7 is installed. (only tested with 3.7) if not then 3.7 will be installed. Installer will then check if Arduino IDE is installed. (any version) If not then 1.8 will be installed.
