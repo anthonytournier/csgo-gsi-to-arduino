@@ -4,6 +4,8 @@ void unknownCmd() {
 }
 
 void onMenu() {
+  winCondition = false;
+  terrorWin = false;
   if (roundlive == 0) {
     freezetime_sequence.Stop();
     freezetime_sequence_run = 0;
