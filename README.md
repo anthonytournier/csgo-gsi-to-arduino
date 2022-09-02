@@ -29,7 +29,7 @@ Send CSGO:GSI data from python to Arduino through serial communication
 
 #### Windows installer
 
-![Untitled1](https://user-images.githubusercontent.com/47089904/187229773-882c0281-84a3-47a3-ae02-cd87c45514ef.jpg)
+![Untitled2](https://user-images.githubusercontent.com/47089904/188230923-9ef992f5-7bf5-460d-b793-b23e3793757c.jpg)
 
 1. Download and install exe from https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases/tag/v1.0.0
 2. Connect your Arduino to your PC via USB
