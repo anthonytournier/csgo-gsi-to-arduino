@@ -16,6 +16,7 @@ from threading import Thread
 from tkinter import *
 import tkinter.scrolledtext as scrolledtext
 import tkinter as tk
+from PIL import ImageTk, Image
 
 info = logging.getLogger(__name__).info
 data2 = ""
@@ -31,32 +32,46 @@ class ShowProcessOutputDemo:
 
         # GUI BUttons
         self.b1 = tk.Button(root, text="Start Server", command=self.start, width=10, state=tk.DISABLED)
-        self.b1.place(x=0, y=0)
+        self.b1.place(x=0, y=83)
         self.b2 = tk.Button(root, text="Stop Server", command=self.stop, width=10, state=tk.DISABLED)
-        self.b2.place(x=80, y=0)
+        self.b2.place(x=80, y=83)
         self.b3 = tk.Button(root, text="Breath Red", command=self.red1, width=10, bg="red")
-        self.b3.place(x=163, y=0)
+        self.b3.place(x=175, y=83)
         self.b4 = tk.Button(root, text="Breath Green", command=self.green1, width=10, bg="green")
-        self.b4.place(x=243, y=0)
+        self.b4.place(x=255, y=83)
         self.b5 = tk.Button(root, text="Breath Blue", command=self.blue1, width=10, bg="blue", fg='white')
-        self.b5.place(x=323, y=0)
+        self.b5.place(x=335, y=83)
         self.b7 = tk.Button(root, text="Multi Fade", command=self.multifade, width=10)
-        self.b7.place(x=163, y=35)
+        self.b7.place(x=175, y=118)
         self.b6 = tk.Button(root, text="Exit", command=self.exit, width=10)
-        self.b6.place(x=0, y=35)
+        self.b6.place(x=0, y=118)
         
         self.b8 = tk.Button(root, text="All Off", command=self.alloff, width=10)
-        self.b8.place(x=243, y=35)
+        self.b8.place(x=255, y=118)
         
         self.b9 = tk.Button(root, text="Disconnect", command=self.disconnect, width=10)
-        self.b9.place(x=323, y=35)
+        self.b9.place(x=335, y=118)
+        
+        #deathwing=Image.open('Deathwing.PNG')
+        #image2=deathwing.resize((100,50),Image.ANTIALIAS)
+        #Deathwing2=ImageTk.PhotoImage(image2)
+        
+        
+        #self.img = ImageTk.PhotoImage(Image.open("a1.jpg"))
+        self.deathwing=Image.open('a1.jpg')
+        self.deathwing = self.deathwing.resize((417, 80),Image.Resampling.LANCZOS)
+        self.Deathwing2=ImageTk.PhotoImage(self.deathwing)
+        self.label = Label(root, image = self.Deathwing2, borderwidth=0, highlightthickness=0)
+        self.label.place(x=0, y=0)
+        
+        
 
         # Scrolling text area
         self.text = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=44, height=12)
         self.text['font'] = ('consolas', '12')
         self.text['background'] = ('black')
         self.text['foreground'] = ('yellow')
-        self.text.place(x=0, y=70)
+        self.text.place(x=0, y=160)
     
     def disconnect(self):
         try:
@@ -302,7 +317,7 @@ class ShowProcessOutputDemo:
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
 root = tk.Tk()
 root.iconbitmap('favicon.ico')
-root.geometry('417x300')
+root.geometry('417x390')
 root.title('CSGO Stage Light')
 #root.configure(bg='grey')
 # root.configure(bg='#bababa')
@@ -342,4 +357,3 @@ except Exception:
 root.protocol("WM_DELETE_WINDOW", app.stop) # exit subprocess if GUI is closed
 root.mainloop()
 info("exited")
-
