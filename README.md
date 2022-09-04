@@ -152,10 +152,14 @@ Example name:
 then restart CS:GO.
 
 ## Notes
-The JLed library is used to create a breathing effect when in freezetime. If you want a solid color during freezetime then edit the arduino file in the main sketch, then upload the sketch again.
+The JLed library is used to create a breathing effect when in freezetime and Live. If you want a solid color during freezetime and Live then edit the arduino file in the main sketch, then upload the sketch again.
+
+0 is for solid color and 1 is for breathing effect.
 
 Set
-> freezetime_breath = 0.
+> freezetime_breath = 0;
+
+> alive_breath = 0;
 
 ### Wiring
 
