@@ -20,12 +20,27 @@ void flashed() {
     flashedColor[0] = flashedState;
     flashedColor[1] = flashedState;
     flashedColor[2] = flashedState;
+    if (alive_sequence_run) {
+      alive_sequence.Stop();
+      alive_sequence_run = 0;
+    }
     setFadeColor(flashedColor, 10);
-    isFlashed = true;
+    if (flashedState > 10) {
+      isFlashed = true;
+    }
   }
   if (flashedState < 10) {
-    setColor(roundliveColor);
+    setColor(offColor);
     isFlashed = false;
+    if (alive_breath == 0) {
+      setColor(roundliveColor);
+    }
+    else {
+      if (!alive_sequence_run) {
+        alive_sequence = JLed(GREENPIN).Breathe(3000).Forever().MaxBrightness(health_fade);
+        alive_sequence_run = 1;
+      }
+    }
   }
   cmdMessenger.feedinSerialData();
 }
@@ -47,6 +62,8 @@ void bomb() {
   bombPlanted = true;
   bombIsExploded = false;
   bombIsDefused = false;
+  alive_sequence.Stop();
+  alive_sequence_run = 1;
   if (state != bombPlanted) { //if we're already active don't set the state again
     state = bombPlanted;
     bombBeeps = 0; //we have had 0 beeps so far
@@ -77,12 +94,16 @@ void bombDefused() {
 }
 
 void tWin() {
+  alive_sequence.Stop();
+  alive_sequence_run = 0;
   winCondition = true;
   terrorWin = true;
   roundlive = 0;
 }
 
 void ctWin() {
+  alive_sequence.Stop();
+  alive_sequence_run = 0;
   winCondition = true;
   terrorWin = false;
   roundlive = 0;
@@ -105,10 +126,16 @@ void freezetime() {
 
 void live() {
   if (bombPlanted == 0) {
-    setColor(roundliveColor);
-    resetSpecialState();
     freezetime_sequence.Stop();
     freezetime_sequence_run = 0;
+    if (!isFlashed && alive_breath == 0) {
+      setColor(roundliveColor);
+    }
+    else {
+      alive_sequence.Reset();
+      alive_sequence_run = 1;
+    }
+    resetSpecialState();
   }
   roundlive = 1;
 }
@@ -119,7 +146,13 @@ void healthupdate() {
     //map(value, fromLow, fromHigh, toLow, toHigh)
     health_fade = map(health, 1, 100, 20, 255);
     analogWrite(REDPIN, 0);
-    analogWrite(GREENPIN, health_fade);
+    if (alive_breath == 0) {
+      analogWrite(GREENPIN, health_fade);
+    }
+    else {
+      alive_sequence = JLed(GREENPIN).Breathe(3000).Forever().MaxBrightness(health_fade);
+      alive_sequence_run = 1;
+    }
     if (health == 0) {
       setColor(bombColor);
     }
