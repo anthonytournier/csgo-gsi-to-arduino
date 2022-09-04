@@ -10,10 +10,14 @@
 #define BAUD_RATE 115200
 
 bool freezetime_breath = 1;
+bool alive_breath = 1;
 
 Countimer tDown;
 auto freezetime_sequence = JLed(BLUEPIN).Breathe(2000).Forever();
 bool freezetime_sequence_run = 0;
+
+auto alive_sequence = JLed(GREENPIN).Breathe(3000).Forever();
+bool alive_sequence_run = 0;
 
 auto breathRed_jled = JLed(REDPIN).Breathe(3000).Forever();
 bool breathRed_run = 0;
@@ -61,7 +65,7 @@ unsigned long bombLastBeep = 0; //when was the last beep of the bomb?
 int state = 5;
 int roundlive = 0;
 int health = 100;
-int health_fade;
+int health_fade = 255;
 bool multifade_seq = 0;
 
 CmdMessenger cmdMessenger = CmdMessenger(Serial);
@@ -132,6 +136,8 @@ void setup()
   digitalWrite(GREENPIN, HIGH);
   delay(1000);
 
+  health_fade = 255;
+
   setColor(offColor);
   initSerial();
 }
@@ -143,6 +149,10 @@ void loop()
 
   if (freezetime_sequence_run) {
     freezetime_sequence.Update();
+  }
+
+  if (alive_sequence_run) {
+    alive_sequence.Update();
   }
 
   if (breathRed_run) {
@@ -246,6 +256,7 @@ void defaultColor() {
 }
 
 void resetSpecialState() {
+  health_fade = 255;
   bombPlanted = false;
   bombIsExploded = false;
   bombIsDefused = false;
