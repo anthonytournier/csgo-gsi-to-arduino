@@ -1,10 +1,12 @@
 void breathRed() {
   if (breathGreen_run) {
     breathGreen_jled.Stop();
+    analogWrite(GREENPIN, 0);
     breathGreen_run = 0;
   }
   if (breathBlue_run) {
     breathBlue_jled.Stop();
+    analogWrite(BLUEPIN, 0);
     breathBlue_run = 0;
   }
   multifade_seq = 0;
@@ -15,10 +17,12 @@ void breathRed() {
 void breathGreen() {
   if (breathRed_run) {
     breathRed_jled.Stop();
+    analogWrite(REDPIN, 0);
     breathRed_run = 0;
   }
   if (breathBlue_run) {
     breathBlue_jled.Stop();
+    analogWrite(BLUEPIN, 0);
     breathBlue_run = 0;
   }
   multifade_seq = 0;
@@ -29,10 +33,12 @@ void breathGreen() {
 void breathBlue() {
   if (breathGreen_run) {
     breathGreen_jled.Stop();
+    analogWrite(GREENPIN, 0);
     breathGreen_run = 0;
   }
   if (breathRed_run) {
     breathRed_jled.Stop();
+    analogWrite(REDPIN, 0);
     breathRed_run = 0;
   }
   multifade_seq = 0;
@@ -42,20 +48,26 @@ void breathBlue() {
 
 void breathOff() {
   breathRed_jled.Stop();
+  analogWrite(REDPIN, 0);
   breathRed_run = 0;
   breathGreen_jled.Stop();
+  analogWrite(GREENPIN, 0);
   breathGreen_run = 0;
   breathBlue_jled.Stop();
+  analogWrite(BLUEPIN, 0);
   breathBlue_run = 0;
   multifade_seq = 0;
 }
 
 void multifade() {
   breathRed_jled.Stop();
+  analogWrite(REDPIN, 0);
   breathRed_run = 0;
   breathGreen_jled.Stop();
+  analogWrite(GREENPIN, 0);
   breathGreen_run = 0;
   breathBlue_jled.Stop();
+  analogWrite(BLUEPIN, 0);
   breathBlue_run = 0;
   multifade_seq = 1;
 }
