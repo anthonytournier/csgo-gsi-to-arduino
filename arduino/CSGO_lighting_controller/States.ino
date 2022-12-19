@@ -8,6 +8,7 @@ void onMenu() {
   terrorWin = false;
   if (roundlive == 0) {
     freezetime_sequence.Stop();
+    analogWrite(BLUEPIN, 0);
     freezetime_sequence_run = 0;
     setColor(menuColor);
     cmdMessenger.feedinSerialData();
@@ -22,6 +23,7 @@ void flashed() {
     flashedColor[2] = flashedState;
     if (alive_sequence_run) {
       alive_sequence.Stop();
+      analogWrite(GREENPIN, 0);
       alive_sequence_run = 0;
     }
     setFadeColor(flashedColor, 10);
@@ -63,6 +65,7 @@ void bomb() {
   bombIsExploded = false;
   bombIsDefused = false;
   alive_sequence.Stop();
+  analogWrite(GREENPIN, 0);
   alive_sequence_run = 1;
   if (state != bombPlanted) { //if we're already active don't set the state again
     state = bombPlanted;
@@ -95,6 +98,7 @@ void bombDefused() {
 
 void tWin() {
   alive_sequence.Stop();
+  analogWrite(GREENPIN, 0);
   alive_sequence_run = 0;
   winCondition = true;
   terrorWin = true;
@@ -103,6 +107,7 @@ void tWin() {
 
 void ctWin() {
   alive_sequence.Stop();
+  analogWrite(GREENPIN, 0);
   alive_sequence_run = 0;
   winCondition = true;
   terrorWin = false;
@@ -127,6 +132,7 @@ void freezetime() {
 void live() {
   if (bombPlanted == 0) {
     freezetime_sequence.Stop();
+    analogWrite(BLUEPIN, 0);
     freezetime_sequence_run = 0;
     if (!isFlashed && alive_breath == 0) {
       setColor(roundliveColor);
