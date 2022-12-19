@@ -4,26 +4,28 @@
 #include <jled.h>
 
 #define REDPIN 5
-#define GREENPIN 6
+#define GREENPIN 4
 #define BLUEPIN 3
 #define BUFFER_SIZE 500
 #define BAUD_RATE 115200
 
 bool freezetime_breath = 1;
-bool alive_breath = 1;
+bool alive_breath = 0;
 
 Countimer tDown;
-auto freezetime_sequence = JLed(BLUEPIN).Breathe(2000).Forever();
+auto freezetime_sequence = JLed(BLUEPIN).Breathe(2000).MinBrightness(50).Forever();
 bool freezetime_sequence_run = 0;
 
-auto alive_sequence = JLed(GREENPIN).Breathe(3000).Forever();
+auto alive_sequence = JLed(GREENPIN).Breathe(3000).MinBrightness(50).Forever();
 bool alive_sequence_run = 0;
 
-auto breathRed_jled = JLed(REDPIN).Breathe(3000).Forever();
+auto breathRed_jled = JLed(REDPIN).Breathe(3000).MinBrightness(50).Forever();
 bool breathRed_run = 0;
-auto breathGreen_jled = JLed(GREENPIN).Breathe(3000).Forever();
+
+auto breathGreen_jled = JLed(GREENPIN).Breathe(3000).MinBrightness(50).Forever();
 bool breathGreen_run = 0;
-auto breathBlue_jled = JLed(BLUEPIN).Breathe(3000).Forever();
+
+auto breathBlue_jled = JLed(BLUEPIN).Breathe(3000).MinBrightness(50).Forever();
 bool breathBlue_run = 0;
 
 bool bombPlanted = false;
