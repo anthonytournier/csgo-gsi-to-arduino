@@ -1,8 +1,51 @@
+# This is a fork
+[Original](https://github.com/synyster0fa7x/csgo-gsi-to-arduino)
+
 # CSGO: Game State Integration to Arduino
 
-Send CSGO:GSI data to Arduino throught serial communication
+Thanks to http://embryonic.dk/wordpress/?p=867
+for calculating the formula needed to sync the LED blink with the bomb beep.
 
-### Prerequisites
+"Shortly after Valve released the game state API, they turned down the accuracy of the bomb timer since it could have been used for cheating . You would have been replacing game sense (“how much time do I have left to defuse the bomb?”) with automation."
+
+Not sure how true that statement is, but the bomb sync is out sometimes.
+
+########################################################################
+
+
+Send CSGO:GSI data from python to Arduino through serial communication
+
+### Materials
+
+* Arduino (Uno, Mega, Mini...)
+* 3 resistors 100Ω
+* 3 N-Channel MOSFETs / Transistors
+* 12V LED Strip RGB 4 Pins
+* I used 1K resistor with TIP41C transistor
+
+(I also added a 22K resistor from Base to ground) My Arduino gets power from the USB, so when the PC is off the Arduino has no power so the Base is not grounded anymore and has the possibility of switching on because my LED strip is connected to a constant on power supply. A transistor does not really need it. A mosfet on the other hand has to be grounded from Base to ground to make sure it switches off)
+
+## Installation
+
+#### Windows installer
+
+![Untitled2](https://user-images.githubusercontent.com/47089904/188230923-9ef992f5-7bf5-460d-b793-b23e3793757c.jpg)
+
+1. Download and install exe from https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/releases/tag/v1.0.0
+2. Connect your Arduino to your PC via USB
+3. Go to "Device Manager" and look under COM LPT for the COMport number of your Arduino
+4. Navigate to `C:\Program Files(x86)\CSGO Stage light` and edit the `config.json` file at line 8 with the COM number you found from step 3
+5. Navigate to `C:\Users\User\Documents\Arduino\CSGO_lighting_controller` and open `CSGO_lighting_controller.ino`
+6. After the Arduino IDE loads, select your board from the Tools menu
+7. Select your Port number from the tools menu (will be the same as in step 3)
+8. Upload the sketch (check for any errors at the bottom)
+9. Navigate to your dekstop. Open the file `CSGO Light Controller`
+#### Note
+If you already have python installed then you should use the manual install instead
+
+## Manual install
+
+#### Prerequisites
 
 ```
 Python 3
@@ -10,18 +53,20 @@ PIP
 git
 ```
 
-### Materials
-
-* Arduino (Uno, Mega, Mini...)
-* 3 resistors 100Ω
-* 3 N-Channel MOSFETs
-* 12V LED Strip RGB 4 Pins
-
-### Installation
-
 #### Arduino
+My Arduino files are stored in tabs.
 
-Upload the `arduino/main.ino` to your Arduino.
+Used libraries...
+```
+Arduino_JSON
+CmdMessenger
+Countimer-master
+JLed
+```
+To install libraries, open Arduino IDE, select Sketch from the menu >> Include Library >> Manage Libraries.
+In the search bar type the names as mentioned above and click install.
+
+Upload the `arduino/CSGO_lighting_controller.ino` to your Arduino.
 
 #### Python Server
 
@@ -41,7 +86,7 @@ Example:
 {
     "csgogsi":{
         "ip":"localhost",
-        "port":"3000",
+        "port":"61500",
         "secret":"MY_SECRET_PHRASE"
     },
     "serial":{
@@ -56,9 +101,9 @@ Then launch the server with :
 python ./main.py
 ```
 
-The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
+The server is now listenning for POST request from CSGO and sends the data to your Arduino through serial COM.
 
-##### Windows
+#### Windows
 Copy the repository URL using the green clone widget on the top right.
 Then use the commands listed below to install the required software.
 ```
@@ -74,22 +119,24 @@ Example:
 {
     "csgogsi":{
         "ip":"localhost",
-        "port":"3000",
+        "port":"61500",
         "secret":"MY_SECRET_PHRASE"
     },
     "serial":{
         "port": "COM3",
-        "baudrate": 9600
+        "baudrate": 115200
     }
 }
 ```
 
-Then launch the server with:
+Then launch the server:
 ```
-python .\main.py
+Navigate to where you have the python file, Hold left shift and right click on any white space, select open command prompt window here
+In the CMD window type the below text...
+python main.py
 ```
 
-The server is now listenning for POST request from CSGO and sends the data to your Arduino throught serial COM.
+The server is now listenning for POST request from CSGO and sends the data to your Arduino through serial COM.
 
 
 #### CS:GO Server
@@ -104,10 +151,34 @@ Example name:
 
 then restart CS:GO.
 
+## Notes
+The JLed library is used to create a breathing effect when in freezetime and Live. If you want a solid color during freezetime and Live then edit the arduino file in the main sketch, then upload the sketch again.
+
+0 is for solid color and 1 is for breathing effect.
+
+Set
+> freezetime_breath = 0;
+
+> alive_breath = 0;
+
 ### Wiring
 
 ![csgo gsi led strip arduino](arduino/wiring.png)
 
+# Features
+
+* Round Live - default color Green (brightness will drop as your health drops)
+* Freezetime - default color Blue with breathing effect (can be configured to be solid blue, see note above)
+* Health at 0 - default color is Red (When you spectate a player, the strip will change to Green)
+* Burning - default color is yellowish (Will keep this state while player is burning then switch back to live)
+* Flashed - default color White (will fade away as the flash fades in game)
+* Bomb planted - default color Red (flashing and gradually increasing in flash timing - Not perfect all the time though)
+* Bomb exploded - default color rainbow fast flashing
+* Bomb defused - default color Orange
+* On Menu - default color Voilet
+* T win - default color Yellow fading on and off
+* CT Win - default color Blue fasing on and off
+* GUI to select breathing color or connect GSI server. [See Here](https://github.com/Welsyntoffie/csgo-gsi-python-to-arduino/tree/develop/python/)
 ## Built With
 
 * [Python](https://www.python.org/)

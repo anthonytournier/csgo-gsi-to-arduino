@@ -1,0 +1,11 @@
+{
+    "csgogsi":{
+        "ip":"127.0.0.1",
+        "port":"61500",
+        "secret":"QWERTY"
+    },
+    "serial":{
+        "port": "COM3",
+        "baudrate": 115200
+    }
+}
